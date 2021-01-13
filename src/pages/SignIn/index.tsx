@@ -1,17 +1,22 @@
-import React, { useCallback, useRef } from 'react';
-import { FormHandles } from '@unform/core';
+import React from 'react';
 
 import Button from '../../components/Button';
 import Input from '../../components/Input';
+import { Container, Content, Buttons } from './styles';
 
 const SignIn: React.FC = () => {
-  const formRef = useRef<FormHandles>(null);
-
   return (
-    <>
-      <Button> Button</Button>
-      <Input name="email" placeholder="Email" />
-    </>
+    <Container>
+      <Content>
+        <Input name="email" placeholder="Email" />
+        <Input name="password" placeholder="Senha" type="password" />
+
+        <Buttons>
+          <Button>Recuperar Acesso</Button>
+          <Button>Entrar</Button>
+        </Buttons>
+      </Content>
+    </Container>
   );
 };
 
