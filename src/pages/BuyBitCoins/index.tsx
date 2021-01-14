@@ -11,23 +11,23 @@ import { Container, Content } from './styles';
 import Button from '../../components/Button';
 
 interface DepositFormData {
-  amount: string;
+  amount: number;
 }
 
-const Deposit: React.FC = () => {
+const BuyBitCoins: React.FC = () => {
   const formRef = useRef<FormHandles>(null);
   const history = useHistory();
 
-  const handleSubmit = async (data: DepositFormData) => {
+  const handleSubmit = async ({ amount }: DepositFormData) => {
     const token = localStorage.getItem('@GoBarber:token');
     const config = {
       headers: { Authorization: `Bearer ${token}` },
     };
 
     await api.post(
-      'account/deposit',
+      'account/balance',
       {
-        amount: parseInt(data.amount, 10),
+        amount,
       },
       config,
     );
@@ -52,4 +52,4 @@ const Deposit: React.FC = () => {
   );
 };
 
-export default Deposit;
+export default BuyBitCoins;
