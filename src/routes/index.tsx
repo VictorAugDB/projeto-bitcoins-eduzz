@@ -1,12 +1,17 @@
 import React from 'react';
-import { Route, Switch } from 'react-router-dom';
+import { Switch } from 'react-router-dom';
+
+import Route from './Route';
 
 import SignIn from '../pages/SignIn';
+import Deposit from '../pages/Deposit';
 
 const Routes: React.FC = () => (
-  <>
-    <Route path="/signin" component={SignIn} />
-  </>
+  <Switch>
+    <Route path="/" exact component={SignIn} />
+
+    <Route path="/deposit" component={Deposit} isPrivate />
+  </Switch>
 );
 
 export default Routes;
