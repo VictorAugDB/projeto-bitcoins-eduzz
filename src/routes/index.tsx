@@ -8,6 +8,7 @@ import Dashboard from '../pages/Dashboard';
 import Deposit from '../pages/Deposit';
 import BuyBitCoins from '../pages/BuyBitCoins';
 import SellBitCoins from '../pages/SellBitCoins';
+import Extract from '../pages/Extract';
 
 const Routes: React.FC = () => (
   <Switch>
@@ -17,6 +18,7 @@ const Routes: React.FC = () => (
     <Route path="/deposit" component={Deposit} isPrivate />
     <Route path="/buy" component={BuyBitCoins} isPrivate />
     <Route path="/sell" component={SellBitCoins} isPrivate />
+    <Route path="/extract" component={Extract} isPrivate />
   </Switch>
 );
 
