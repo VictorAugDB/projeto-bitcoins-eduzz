@@ -4,6 +4,7 @@ import {
   RouteProps as ReactDOMRouteProps,
   Redirect,
 } from 'react-router-dom';
+import Navbar from '../components/Navbar';
 
 import { useAuth } from '../hooks/auth';
 
@@ -23,7 +24,10 @@ const Route: React.FC<RouteProps> = ({
       {...rest}
       render={({ location }) => {
         return isPrivate === !!token ? (
-          <Component />
+          <>
+            <Navbar />
+            <Component />
+          </>
         ) : (
           <Redirect
             to={{
