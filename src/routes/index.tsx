@@ -9,17 +9,20 @@ import Deposit from '../pages/Deposit';
 import BuyBitCoins from '../pages/BuyBitCoins';
 import SellBitCoins from '../pages/SellBitCoins';
 import Extract from '../pages/Extract';
+import Navbar from '../components/Navbar';
 
 const Routes: React.FC = () => (
-  <Switch>
+  <>
     <Route path="/" exact component={SignIn} />
-
-    <Route path="/dashboard" component={Dashboard} isPrivate />
-    <Route path="/deposit" component={Deposit} isPrivate />
-    <Route path="/buy" component={BuyBitCoins} isPrivate />
-    <Route path="/sell" component={SellBitCoins} isPrivate />
-    <Route path="/extract" component={Extract} isPrivate />
-  </Switch>
+    <Navbar />
+    <Switch>
+      <Route path="/dashboard" component={Dashboard} isPrivate />
+      <Route path="/deposit" component={Deposit} isPrivate />
+      <Route path="/buy" component={BuyBitCoins} isPrivate />
+      <Route path="/sell" component={SellBitCoins} isPrivate />
+      <Route path="/extract" component={Extract} isPrivate />
+    </Switch>
+  </>
 );
 
 export default Routes;
