@@ -10,42 +10,50 @@ import api from '../../services/api';
 import { Container, Content } from './styles';
 import Button from '../../components/Button';
 
-interface DepositFormData {
-  amount: number;
+interface SellBitCoinsFormData {
+  bitCoinsAmount: string;
 }
 
 const SellBitCoins: React.FC = () => {
   const formRef = useRef<FormHandles>(null);
   const history = useHistory();
 
-  const handleSubmit = async ({ amount }: DepositFormData) => {
+  const handleSubmit = async (data: SellBitCoinsFormData) => {
     const token = localStorage.getItem('@GoBarber:token');
     const config = {
       headers: { Authorization: `Bearer ${token}` },
     };
 
-    await api.post(
-      'account/deposit',
-      {
-        amount,
-      },
-      config,
-    );
+    const bitCoinPrice = await api.get('btc/price', config);
+    const { sell } = bitCoinPrice.data;
 
-    alert('Valor depositado!');
+    const amountBRL = parseFloat(data.bitCoinsAmount) * sell;
 
-    history.push('/dashboard');
+    try {
+      await api.post(
+        'btc/sell',
+        {
+          amount: amountBRL,
+        },
+        config,
+      );
+      alert(`Parabéns você vendeu ${data.bitCoinsAmount} bitcoins`);
+      history.push('/dashboard');
+    } catch {
+      alert('Não foi possível vender, pois você não possui essa quantidade');
+      history.push('dashboard');
+    }
   };
 
   return (
     <Container>
       <Content>
         <Form ref={formRef} onSubmit={handleSubmit}>
-          <h1>Digite o valor que deseja depositar</h1>
+          <h1>Digite a quantidade de bitcoins que deseja vender</h1>
 
-          <Input name="amount" placeholder="R$" />
+          <Input name="bitCoinsAmount" placeholder="Quantidade" />
 
-          <Button type="submit">Depositar</Button>
+          <Button type="submit">Vender</Button>
         </Form>
       </Content>
     </Container>

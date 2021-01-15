@@ -27,7 +27,7 @@ const Deposit: React.FC = () => {
     await api.post(
       'account/deposit',
       {
-        amount: parseInt(data.amount, 10),
+        amount: parseFloat(data.amount),
       },
       config,
     );

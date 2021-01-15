@@ -10,42 +10,53 @@ import api from '../../services/api';
 import { Container, Content } from './styles';
 import Button from '../../components/Button';
 
-interface DepositFormData {
-  amount: number;
+interface BuyBitCoinsFormData {
+  bitCoinsAmount: string;
 }
 
 const BuyBitCoins: React.FC = () => {
   const formRef = useRef<FormHandles>(null);
   const history = useHistory();
 
-  const handleSubmit = async ({ amount }: DepositFormData) => {
+  const handleSubmit = async (data: BuyBitCoinsFormData) => {
     const token = localStorage.getItem('@GoBarber:token');
     const config = {
       headers: { Authorization: `Bearer ${token}` },
     };
 
-    await api.post(
-      'account/balance',
-      {
-        amount,
-      },
-      config,
-    );
+    const userBalance = await api.get('account/balance', config);
+    const { balance } = userBalance.data;
 
-    alert('Valor depositado!');
+    const bitCoinPrice = await api.get('btc/price', config);
+    const { buy } = bitCoinPrice.data;
 
-    history.push('/dashboard');
+    const amountBRL = parseFloat(data.bitCoinsAmount) * buy;
+
+    if (amountBRL > balance) {
+      alert('você não tem dinheiro suficiente para comprar essa quantidade');
+      history.push('/dashboard');
+    } else {
+      await api.post(
+        'btc/purchase',
+        {
+          amount: amountBRL,
+        },
+        config,
+      );
+      alert(`Parabéns você comprou ${data.bitCoinsAmount} bitcoins`);
+      history.push('/dashboard');
+    }
   };
 
   return (
     <Container>
       <Content>
         <Form ref={formRef} onSubmit={handleSubmit}>
-          <h1>Digite o valor que deseja depositar</h1>
+          <h1>Digite a quantidade de bitcoins</h1>
 
-          <Input name="amount" placeholder="R$" />
+          <Input name="bitCoinsAmount" placeholder="Quantidade" />
 
-          <Button type="submit">Depositar</Button>
+          <Button type="submit">Comprar</Button>
         </Form>
       </Content>
     </Container>
