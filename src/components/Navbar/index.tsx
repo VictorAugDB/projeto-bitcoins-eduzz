@@ -14,10 +14,10 @@ const Navbar: React.FC = () => {
 
   return (
     <Container>
-      <IconContext.Provider value={{ color: '##FFFAFA' }}>
-        <SideNavbar>
-          <FaIcons.FaBars onClick={showSidebar} />
-        </SideNavbar>
+      <SideNavbar>
+        <FaIcons.FaBars onClick={showSidebar} />
+      </SideNavbar>
+      <IconContext.Provider value={{ color: '#FFFAFA' }}>
         <Nav className={sidebar ? 'nav-menu active' : 'nav-menu'}>
           <ul className="nav-menu-items">
             <li className="navbar-toggle">
