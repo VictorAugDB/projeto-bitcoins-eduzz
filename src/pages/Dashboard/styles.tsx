@@ -1,32 +1,39 @@
 import styled from 'styled-components';
 
-export const Container = styled.div``;
+export const Container = styled.div`
+  display: flex;
+  flex-direction: column;
+  flex-wrap: wrap;
+`;
 
 export const UserContent = styled.div`
-  position: absolute;
-  z-index: -1;
-  width: 200px;
-  height: 500px;
+  display: flex;
+  flex: 1;
   background: #fff;
   border: 1px solid #fff;
   border-radius: 4px;
-  margin: 10px 0 0 25px;
+  margin: 25px;
   box-shadow: 0 1px 1px #808080;
+  justify-content: space-around;
 
-  div {
+  div.user-balance {
     display: flex;
-    align-items: center;
-    justify-content: center;
     flex-direction: column;
   }
 
-  div.user-balance p {
+  div.bitcoins-price {
+    display: flex;
+    flex-direction: column;
+  }
+
+  div p {
     margin-top: 10px;
   }
 `;
 
 export const Graphics = styled.div`
   display: flex;
+  flex: 1;
   flex-wrap: wrap;
   align-items: center;
   justify-content: center;

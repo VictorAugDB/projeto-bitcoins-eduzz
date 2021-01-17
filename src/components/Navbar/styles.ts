@@ -5,11 +5,13 @@ import { shade } from 'polished';
 export const Container = styled.div``;
 
 export const SideNavbar = styled.div`
-  background: #cdc9c9;
+  background: #fff;
   height: 80px;
   display: flex;
   justify-content: start;
   align-items: center;
+  box-shadow: 0 1px 3px #808080;
+  padding-left: 25px;
 `;
 
 export const Nav = styled.nav`
@@ -20,7 +22,7 @@ export const Nav = styled.nav`
   }
 
   &.nav-menu {
-    background-color: #cdc9c9;
+    background-color: #212121;
     width: 250px;
     height: 100vh;
     display: flex;
@@ -46,7 +48,7 @@ export const Nav = styled.nav`
 
     &.nav-text a {
       text-decoration: none;
-      color: #000;
+      color: #fffafa;
       font-size: 18px;
       width: 95%;
       height: 100%;
@@ -56,7 +58,7 @@ export const Nav = styled.nav`
     }
 
     &.nav-text:hover {
-      background: ${shade(0.1, '#cdc9c9')};
+      background: ${shade(0.5, '#212121')};
       border-radius: 4px;
     }
 
@@ -80,7 +82,7 @@ export const Linker = styled.div`
   align-items: center;
 
   &:hover {
-    background: ${shade(0.1, '#cdc9c9')};
+    background: ${shade(0.5, '#212121')};
     border-radius: 4px;
   }
 `;

@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import { Line } from 'react-chartjs-2';
+import { IoMdReturnRight } from 'react-icons/io';
 import api from '../../services/api';
 
 import { Container } from './styles';
@@ -34,7 +35,7 @@ const LineChart: React.FC = () => {
 
         return (
           created.getDate() === actualDate.getDate() &&
-          actualDate.getHours() - created.getHours() < 6 &&
+          actualDate.getHours() - created.getHours() < 12 &&
           created.getMonth() === actualDate.getMonth() &&
           created.getFullYear() === actualDate.getFullYear() &&
           dayHistory.push({
@@ -68,7 +69,7 @@ const LineChart: React.FC = () => {
             },
           ],
         }}
-        height={200}
+        height={300}
         width={400}
         options={{
           maintainAspectRatio: false,
@@ -77,13 +78,17 @@ const LineChart: React.FC = () => {
               {
                 ticks: {
                   max: 210000,
-                  min: 190000,
+                  min: 170000,
                 },
               },
             ],
             xAxes: [
               {
-                stacked: true,
+                display: true,
+                position: 'right',
+                ticks: {
+                  reverse: true,
+                },
               },
             ],
           },

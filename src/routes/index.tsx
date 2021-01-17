@@ -10,10 +10,13 @@ import BuyBitCoins from '../pages/BuyBitCoins';
 import SellBitCoins from '../pages/SellBitCoins';
 import Extract from '../pages/Extract';
 import Navbar from '../components/Navbar';
+import SignUp from '../pages/SignUp';
 
 const Routes: React.FC = () => (
   <>
     <Route path="/" exact component={SignIn} />
+    <Route path="/signup" component={SignUp} />
+
     <Navbar />
     <Switch>
       <Route path="/dashboard" component={Dashboard} isPrivate />

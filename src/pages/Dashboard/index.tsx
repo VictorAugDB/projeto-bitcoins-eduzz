@@ -18,10 +18,16 @@ interface BitCoinsPrice {
   sell: number;
 }
 
+interface VolumeData {
+  buy: number;
+  sell: number;
+}
+
 const Dashboard: React.FC = () => {
   const [userBalance, setUserBalance] = useState<Balance>();
   const [userBitCoinsAmount, setUserBitCoinsAmount] = useState<UserBitCoins>();
   const [Price, setPrice] = useState<BitCoinsPrice>();
+  const [userVolume, setUserVolume] = useState<VolumeData>();
 
   useEffect(() => {
     async function loadBalance(): Promise<void> {
@@ -37,6 +43,8 @@ const Dashboard: React.FC = () => {
 
       const bitcoinsPrice = await api.get('/btc/price', config);
 
+      const volume = await api.get('/volume', config);
+
       const currentBtc = bitcoins.data.reduce(
         (accumulator: number, btc: UserBitCoins) => {
           return accumulator + btc.currentBtcAmount;
@@ -47,6 +55,7 @@ const Dashboard: React.FC = () => {
       setUserBitCoinsAmount(currentBtc.toFixed(2));
       setUserBalance(response.data);
       setPrice(bitcoinsPrice.data);
+      setUserVolume(volume.data);
     }
 
     loadBalance();
@@ -56,25 +65,53 @@ const Dashboard: React.FC = () => {
     <Container>
       <UserContent>
         <div className="user-balance">
-          <p>Você possui:</p>
           <p>
-            {userBalance?.balance.toLocaleString('pt-BR')}
-            R$
+            Você possui:
+            {` `}
+            {userBalance?.balance.toLocaleString('pt-BR', {
+              style: 'currency',
+              currency: 'BRL',
+            })}
           </p>
-          <p>E</p>
-          <p>{userBitCoinsAmount}</p>
-          <p>bitcoins</p>
+          <p>
+            {userBitCoinsAmount}
+            {` `}
+            bitcoins
+          </p>
         </div>
         <div className="bitcoins-price">
-          <p>Valor atual de compra de um bitcoin:</p>
           <p>
-            {Price?.buy.toLocaleString('pt-BR')}
-            R$
+            Valor atual de compra de um bitcoin:
+            {` `}
+            {Price?.buy.toLocaleString('pt-BR', {
+              style: 'currency',
+              currency: 'BRL',
+            })}
           </p>
-          <p>Valor atual de venda de um bitcoin:</p>
           <p>
-            {Price?.sell.toLocaleString('pt-BR')}
-            R$
+            Valor atual de venda de um bitcoin:
+            {` `}
+            {Price?.sell.toLocaleString('pt-BR', {
+              style: 'currency',
+              currency: 'BRL',
+            })}
+          </p>
+          <p>Operações efetuadas hoje:</p>
+          <p>
+            Compra:
+            {` `}
+            {userVolume?.buy.toLocaleString('pt-BR', {
+              style: 'currency',
+              currency: 'BRL',
+            })}
+          </p>
+          <p>
+            Venda:
+            {` `}
+            {userVolume?.sell.toLocaleString('pt-BR', {
+              style: 'currency',
+              currency: 'BRL',
+            })}
           </p>
         </div>
       </UserContent>

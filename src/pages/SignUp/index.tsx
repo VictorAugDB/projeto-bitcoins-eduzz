@@ -5,30 +5,30 @@ import * as Yup from 'yup';
 import { FormHandles } from '@unform/core';
 import { Link, useHistory } from 'react-router-dom';
 
-import { useAuth } from '../../hooks/auth';
 import getValidationErrors from '../../utils/getValidationErros';
 
 import Button from '../../components/Button';
 import Input from '../../components/Input';
 import { Container, Content } from './styles';
+import api from '../../services/api';
 
-interface SignInFormData {
+interface SignUpFormData {
+  name: string;
   email: string;
   password: string;
 }
 
-const SignIn: React.FC = () => {
+const SignUp: React.FC = () => {
   const formRef = useRef<FormHandles>(null);
   const history = useHistory();
 
-  const { signIn } = useAuth();
-
   const handleSubmit = useCallback(
-    async (data: SignInFormData) => {
+    async (data: SignUpFormData) => {
       try {
         formRef.current?.setErrors({});
 
         const schema = Yup.object().shape({
+          name: Yup.string().required('Digite seu nome'),
           email: Yup.string()
             .email('Digite um e-mail válido')
             .required('E-mail obrigatório'),
@@ -39,12 +39,15 @@ const SignIn: React.FC = () => {
           abortEarly: false,
         });
 
-        await signIn({
+        api.post('/account', {
+          name: data.name,
           email: data.email,
           password: data.password,
         });
 
-        history.push('/dashboard');
+        alert('Você já pode fazer login!');
+
+        history.push('/');
       } catch (err) {
         if (err instanceof Yup.ValidationError) {
           const errors = getValidationErrors(err);
@@ -53,18 +56,19 @@ const SignIn: React.FC = () => {
         }
       }
     },
-    [signIn, history],
+    [history],
   );
 
   return (
     <Container>
       <Content>
         <Form ref={formRef} onSubmit={handleSubmit}>
+          <Input name="name" placeholder="Nome" />
           <Input name="email" placeholder="Email" />
           <Input name="password" placeholder="Senha" type="password" />
 
-          <div>
-            <Link to="/signup">Criar conta</Link>
+          <div className="grau">
+            <Link to="/">Retornar para login</Link>
             <Button type="submit">Entrar</Button>
           </div>
         </Form>
@@ -73,4 +77,4 @@ const SignIn: React.FC = () => {
   );
 };
 
-export default SignIn;
+export default SignUp;

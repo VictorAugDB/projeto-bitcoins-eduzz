@@ -14,7 +14,7 @@ const Navbar: React.FC = () => {
 
   return (
     <Container>
-      <IconContext.Provider value={{ color: '#000' }}>
+      <IconContext.Provider value={{ color: '##FFFAFA' }}>
         <SideNavbar>
           <FaIcons.FaBars onClick={showSidebar} />
         </SideNavbar>
