@@ -1,38 +1,39 @@
 import React from 'react';
 
-import * as FaIcons from 'react-icons/fa';
-import * as AiIcons from 'react-icons/ai';
-import * as IoIcons from 'react-icons/io';
+import { FaCartPlus, FaMoneyBillWave } from 'react-icons/fa';
+import { AiFillHome } from 'react-icons/ai';
+import { BsLayoutTextSidebar } from 'react-icons/bs';
+import { SiSellfy } from 'react-icons/si';
 
 export const SidebarData = [
   {
     title: 'Home',
     path: '/dashboard',
-    icon: <AiIcons.AiFillHome />,
+    icon: <AiFillHome />,
     cName: 'nav-text',
   },
   {
     title: 'Deposit',
     path: '/deposit',
-    icon: <IoIcons.IoIosPaper />,
+    icon: <FaMoneyBillWave />,
     cName: 'nav-text',
   },
   {
     title: 'Buy',
     path: '/buy',
-    icon: <FaIcons.FaCartPlus />,
+    icon: <FaCartPlus />,
     cName: 'nav-text',
   },
   {
     title: 'Sell',
     path: '/sell',
-    icon: <IoIcons.IoMdPeople />,
+    icon: <SiSellfy />,
     cName: 'nav-text',
   },
   {
     title: 'Extract',
     path: '/extract',
-    icon: <FaIcons.FaEnvelopeOpenText />,
+    icon: <BsLayoutTextSidebar />,
     cName: 'nav-text',
   },
 ];

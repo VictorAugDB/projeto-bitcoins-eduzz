@@ -36,7 +36,7 @@ const Extract: React.FC = () => {
 
   useEffect(() => {
     async function loadExtracts(): Promise<void> {
-      const token = localStorage.getItem('@GoBarber:token');
+      const token = localStorage.getItem('@Desafio-Eduzz:token');
 
       const config = {
         headers: { Authorization: `Bearer ${token}` },
@@ -82,8 +82,6 @@ const Extract: React.FC = () => {
         formattedLiquidation: formatValue(balanceSum.liquidation),
         formattedTotal: formatValue(balanceSum.total),
       };
-
-      console.log(balanceFormatted);
 
       setBalance(balanceFormatted);
       setExtracts(extractsFormatted);

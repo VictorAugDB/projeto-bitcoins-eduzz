@@ -21,7 +21,7 @@ const AuthContext = createContext<AuthContextData>({} as AuthContextData);
 
 const AuthProvider: React.FC = ({ children }) => {
   const [data, setData] = useState<AuthState>(() => {
-    const token = localStorage.getItem('@GoBarber:token');
+    const token = localStorage.getItem('@Desafio-Eduzz:token');
 
     if (token) {
       return { token };
@@ -38,13 +38,13 @@ const AuthProvider: React.FC = ({ children }) => {
 
     const { token } = response.data;
 
-    localStorage.setItem('@GoBarber:token', token);
+    localStorage.setItem('@Desafio-Eduzz:token', token);
 
     setData({ token });
   }, []);
 
   const signOut = useCallback(() => {
-    localStorage.removeItem('@GoBarber:token');
+    localStorage.removeItem('@Desafio-Eduzz:token');
 
     setData({} as AuthState);
   }, []);

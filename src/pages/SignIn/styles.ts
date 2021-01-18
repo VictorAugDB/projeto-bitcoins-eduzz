@@ -1,7 +1,6 @@
 import { shade } from 'polished';
 import styled, { keyframes } from 'styled-components';
 import signInBackgroundImg from '../../assets/splash.png';
-import logoEduzz from '../../assets/logo-white.png';
 
 export const Container = styled.div`
   height: 100vh;

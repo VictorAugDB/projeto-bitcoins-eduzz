@@ -1,6 +1,5 @@
 import React, { useEffect, useState } from 'react';
 import { Line } from 'react-chartjs-2';
-import { IoMdReturnRight } from 'react-icons/io';
 import api from '../../services/api';
 
 import { Container } from './styles';
@@ -17,7 +16,7 @@ const LineChart: React.FC = () => {
 
   useEffect(() => {
     async function loadHistory(): Promise<void> {
-      const token = localStorage.getItem('@GoBarber:token');
+      const token = localStorage.getItem('@Desafio-Eduzz:token');
 
       const config = {
         headers: { Authorization: `Bearer ${token}` },
