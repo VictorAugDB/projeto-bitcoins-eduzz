@@ -8,10 +8,14 @@ export const SideNavbar = styled.div`
   background: #fff;
   height: 80px;
   display: flex;
-  justify-content: start;
+  justify-content: space-between;
   align-items: center;
   box-shadow: 0 1px 3px #808080;
   padding-left: 25px;
+
+  .burger-bar {
+    cursor: pointer;
+  }
 `;
 
 export const Nav = styled.nav`
@@ -72,6 +76,29 @@ export const Nav = styled.nav`
   }
 `;
 
+export const Logout = styled.div`
+  position: absolute;
+
+  right: 55px;
+
+  cursor: pointer;
+
+  div {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+  }
+
+  p {
+    margin-left: 5px;
+  }
+
+  &:hover {
+    background: ${shade(0.5, '#fff')};
+    border-radius: 4px;
+  }
+`;
+
 export const Linker = styled.div`
   width: 100%;
   height: 40px;
@@ -80,6 +107,7 @@ export const Linker = styled.div`
   display: flex;
   justify-content: center;
   align-items: center;
+  cursor: pointer;
 
   &:hover {
     background: ${shade(0.5, '#212121')};
