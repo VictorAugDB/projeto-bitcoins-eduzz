@@ -1,6 +1,7 @@
 import { shade } from 'polished';
 import styled, { keyframes } from 'styled-components';
 import signInBackgroundImg from '../../assets/splash.png';
+import logoEduzz from '../../assets/logo-white.png';
 
 export const Container = styled.div`
   height: 100vh;
@@ -8,6 +9,7 @@ export const Container = styled.div`
 
   align-items: center;
   justify-content: center;
+  flex-direction: column;
 
   background: url(${signInBackgroundImg}) no-repeat center;
   background-size: cover;
@@ -23,9 +25,7 @@ export const Content = styled.div`
   align-items: center;
   justify-content: center;
 
-  flex: 1;
-
-  max-width: 300px;
+  max-width: 400px;
 `;
 
 const appearFromLeft = keyframes`
@@ -54,7 +54,7 @@ export const AnimationContainer = styled.div`
   }
 
   form {
-    margin: 80px 0;
+    margin: 30px 0;
     width: 340px;
     text-align: center;
 
@@ -63,7 +63,6 @@ export const AnimationContainer = styled.div`
     }
 
     a {
-      color: #f4ede8;
       display: block;
       margin-top: 24px;
       text-decoration: none;
@@ -75,23 +74,8 @@ export const AnimationContainer = styled.div`
       border-radius: 10px;
     }
   }
+`;
 
-  > a {
-    color: #ff9000;
-    display: block;
-    margin-top: 24px;
-    text-decoration: none;
-    transition: color 0.2s;
-
-    display: flex;
-    align-items: center;
-
-    svg {
-      margin-right: 16px;
-    }
-
-    &:hover {
-      color: ${shade(0.2, '#ffffff')};
-    }
-  }
+export const Logo = styled.img`
+  width: 200px;
 `;

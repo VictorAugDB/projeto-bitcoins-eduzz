@@ -47,10 +47,14 @@ export const Container = styled.div<ContainerProps>`
     flex: 1;
     background: transparent;
     border: 0;
-    color: #f4ede8;
+    color: #1c1c1c;
 
     &::placeholder {
       color: #666360;
+    }
+
+    &:-webkit-autofill {
+      -webkit-box-shadow: 0 0 0 30px #dcdcdc inset !important;
     }
   }
 

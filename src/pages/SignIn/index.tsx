@@ -4,15 +4,15 @@ import { Form } from '@unform/web';
 import * as Yup from 'yup';
 import { FormHandles } from '@unform/core';
 import { Link, useHistory } from 'react-router-dom';
-
 import { FiMail, FiLock } from 'react-icons/fi';
+import logoEduzz from '../../assets/logo-white.png';
 
 import { useAuth } from '../../hooks/auth';
 import getValidationErrors from '../../utils/getValidationErros';
 
 import Button from '../../components/Button';
 import Input from '../../components/Input';
-import { Container, Content, AnimationContainer } from './styles';
+import { Container, Content, AnimationContainer, Logo } from './styles';
 import { useToast } from '../../hooks/toast';
 
 interface SignInFormData {
@@ -69,6 +69,7 @@ const SignIn: React.FC = () => {
 
   return (
     <Container>
+      <Logo src={logoEduzz} alt="logo" />
       <Content>
         <AnimationContainer>
           <Form ref={formRef} onSubmit={handleSubmit}>

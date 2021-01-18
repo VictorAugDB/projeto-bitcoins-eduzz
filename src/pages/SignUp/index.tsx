@@ -4,6 +4,7 @@ import { Form } from '@unform/web';
 import * as Yup from 'yup';
 import { FormHandles } from '@unform/core';
 import { Link, useHistory } from 'react-router-dom';
+import logoEduzz from '../../assets/logo-white.png';
 
 import getValidationErrors from '../../utils/getValidationErros';
 
@@ -12,6 +13,7 @@ import Input from '../../components/Input';
 import { Container, Content } from './styles';
 import api from '../../services/api';
 import { useToast } from '../../hooks/toast';
+import { AnimationContainer, Logo } from '../SignIn/styles';
 
 interface SignUpFormData {
   name: string;
@@ -69,22 +71,25 @@ const SignUp: React.FC = () => {
         });
       }
     },
-    [history],
+    [history, addToast],
   );
 
   return (
     <Container>
+      <Logo src={logoEduzz} alt="logo" />
       <Content>
-        <Form ref={formRef} onSubmit={handleSubmit}>
-          <Input name="name" placeholder="Nome" />
-          <Input name="email" placeholder="Email" />
-          <Input name="password" placeholder="Senha" type="password" />
+        <AnimationContainer>
+          <Form ref={formRef} onSubmit={handleSubmit}>
+            <Input name="name" placeholder="Nome" />
+            <Input name="email" placeholder="Email" />
+            <Input name="password" placeholder="Senha" type="password" />
 
-          <div className="grau">
-            <Link to="/">Retornar para login</Link>
-            <Button type="submit">Entrar</Button>
-          </div>
-        </Form>
+            <div className="grau">
+              <Link to="/">Retornar para login</Link>
+              <Button type="submit">Entrar</Button>
+            </div>
+          </Form>
+        </AnimationContainer>
       </Content>
     </Container>
   );
