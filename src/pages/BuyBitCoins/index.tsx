@@ -28,7 +28,7 @@ const BuyBitCoins: React.FC = () => {
   const { addToast } = useToast();
 
   const submit = useCallback(
-    async (price: number, quantity: string) => {
+    (price: number, quantity: string) => {
       confirmAlert({
         title: 'Por favor Confirme',
         message: `Você deseja comprar ${quantity} bitcoins por ${formatValue(

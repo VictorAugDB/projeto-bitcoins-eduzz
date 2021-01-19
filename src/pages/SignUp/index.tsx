@@ -43,19 +43,19 @@ const SignUp: React.FC = () => {
           abortEarly: false,
         });
 
-        api.post('/account', {
+        await api.post('/account', {
           name: data.name,
           email: data.email,
           password: data.password,
         });
-
-        history.push('/');
 
         addToast({
           type: 'success',
           title: 'Cadastro realizado!',
           description: 'Você já pode fazer seu logon',
         });
+
+        history.push('/');
       } catch (err) {
         if (err instanceof Yup.ValidationError) {
           const errors = getValidationErrors(err);
@@ -64,11 +64,20 @@ const SignUp: React.FC = () => {
 
           return;
         }
-        addToast({
-          type: 'error',
-          title: 'Error no cadastro',
-          description: 'Ocorreu um erro ao fazer cadastro, tente novamente.',
-        });
+
+        if (err.response.status === 400) {
+          addToast({
+            type: 'info',
+            title: 'Conta já existente!',
+            description: 'Tente colocar dados diferentes',
+          });
+        } else {
+          addToast({
+            type: 'error',
+            title: 'Error no cadastro',
+            description: 'Ocorreu um erro ao fazer cadastro, tente novamente.',
+          });
+        }
       }
     },
     [history, addToast],
@@ -86,7 +95,7 @@ const SignUp: React.FC = () => {
 
             <div className="grau">
               <Link to="/">Retornar para login</Link>
-              <Button type="submit">Entrar</Button>
+              <Button type="submit">Cadastrar</Button>
             </div>
           </Form>
         </AnimationContainer>
