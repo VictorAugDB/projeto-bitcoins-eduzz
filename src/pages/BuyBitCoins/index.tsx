@@ -28,7 +28,7 @@ const BuyBitCoins: React.FC = () => {
   const { addToast } = useToast();
 
   const submit = useCallback(
-    (price: number, quantity: string) => {
+    async (price: number, quantity: string) => {
       confirmAlert({
         title: 'Por favor Confirme',
         message: `Você deseja comprar ${quantity} bitcoins por ${formatValue(
@@ -50,11 +50,13 @@ const BuyBitCoins: React.FC = () => {
                 },
                 config,
               );
+
               addToast({
                 type: 'success',
                 title: 'Compra efetuada!',
                 description: `Você comprou ${quantity} bitcoins.`,
               });
+
               history.push('/dashboard');
             },
           },
@@ -113,8 +115,6 @@ const BuyBitCoins: React.FC = () => {
         } else {
           submit(amountBRL, data.bitCoinsAmount);
         }
-
-        history.push('/dashboard');
       } catch (err) {
         if (err instanceof Yup.ValidationError) {
           const errors = getValidationErrors(err);

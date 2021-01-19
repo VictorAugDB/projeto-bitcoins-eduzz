@@ -34,6 +34,7 @@ const SellBitCoins: React.FC = () => {
         await schema.validate(data, {
           abortEarly: false,
         });
+
         const token = localStorage.getItem('@Desafio-Eduzz:token');
         const config = {
           headers: { Authorization: `Bearer ${token}` },
@@ -41,13 +42,24 @@ const SellBitCoins: React.FC = () => {
 
         const bitCoinPrice = await api.get('btc/price', config);
 
+        const balance = await api.get('account/balance', config);
+
         const { sell } = bitCoinPrice.data;
 
-        try {
+        if (balance.data <= data.brlAmount) {
+          history.push('/dashboard');
+          addToast({
+            type: 'error',
+            title: 'Venda não efetuada!',
+            description: `Você não tem essa quantidade em reais.`,
+          });
+
+          history.push('dashboard');
+        } else {
           await api.post(
             'btc/sell',
             {
-              amount: data.brlAmount,
+              amount: parseFloat(data.brlAmount),
             },
             config,
           );
@@ -58,14 +70,6 @@ const SellBitCoins: React.FC = () => {
             description: `Parabéns você vendeu ${(
               parseFloat(data.brlAmount) / sell
             ).toFixed(6)} bitcoins.`,
-          });
-
-          history.push('/dashboard');
-        } catch {
-          addToast({
-            type: 'error',
-            title: 'Venda não efetuada!',
-            description: `Você não tem essa quantidade em reais.`,
           });
 
           history.push('dashboard');

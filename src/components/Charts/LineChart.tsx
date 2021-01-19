@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import { Line } from 'react-chartjs-2';
+import { create } from 'yup/lib/array';
 import api from '../../services/api';
 
 import { Container } from './styles';
@@ -32,10 +33,23 @@ const LineChart: React.FC = () => {
           .getHours()
           .toString()}:${created.getMinutes().toString()}`;
 
+        const yesterdayDay = actualDate.getDate() - 1;
+
+        const yesterdayDate = new Date(
+          actualDate.getFullYear(),
+          actualDate.getMonth(),
+          yesterdayDay,
+          actualDate.getHours(),
+          actualDate.getMinutes(),
+          actualDate.getSeconds(),
+          actualDate.getMilliseconds(),
+        );
+
         return (
-          created.getDate() === actualDate.getDate() &&
-          actualDate.getHours() - created.getHours() < 12 &&
+          created.getDate() >= yesterdayDate.getDate() &&
+          yesterdayDate <= created &&
           created.getMonth() === actualDate.getMonth() &&
+          created.getMinutes() % 10 === 0 &&
           created.getFullYear() === actualDate.getFullYear() &&
           dayHistory.push({
             buy: element.buy,
@@ -68,7 +82,7 @@ const LineChart: React.FC = () => {
             },
           ],
         }}
-        height={300}
+        height={400}
         width={400}
         options={{
           maintainAspectRatio: false,

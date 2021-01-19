@@ -9,6 +9,13 @@ export const Container = styled.div`
   max-width: 1120px;
   margin: 0 auto;
   padding: 40px 20px;
+
+  h1.filter-title {
+    color: #808080;
+    text-align: center;
+    margin-bottom: 5px;
+    font-size: 2.2rem;
+  }
 `;
 
 export const Title = styled.h1`
@@ -20,6 +27,41 @@ export const CardContainer = styled.section`
   display: grid;
   grid-template-columns: repeat(3, 1fr);
   grid-gap: 10px;
+  margin-top: 5px;
+`;
+
+export const FilterContainer = styled.section`
+  display: flex;
+  justify-content: space-between;
+  margin-bottom: 5px;
+`;
+
+export const FilterCard = styled.div`
+  background: #fff;
+  padding: 22px 32px;
+  border-radius: 5px;
+  color: #808080;
+  box-shadow: 0 1px 1px #808080;
+  justify-content: space-between;
+  margin-bottom: 5px;
+  margin: 0 5px;
+  flex: 1;
+  cursor: pointer;
+
+  h1 {
+    margin-top: 14px;
+    font-size: 36px;
+    font-weight: normal;
+    line-height: 54px;
+  }
+
+  &:first-child {
+    margin-left: 0;
+  }
+
+  &:last-child {
+    margin-right: 0;
+  }
 `;
 
 export const Card = styled.div`

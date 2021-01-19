@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import React, { useCallback, useState } from 'react';
 
 import investment from '../../assets/investment.svg';
 import liquidation from '../../assets/liquidation.svg';
@@ -7,7 +7,14 @@ import total from '../../assets/total.svg';
 import api from '../../services/api';
 import formatValue from '../../utils/formatValue';
 
-import { CardContainer, Container, TableContainer, Card } from './styles';
+import {
+  CardContainer,
+  Container,
+  TableContainer,
+  Card,
+  FilterCard,
+  FilterContainer,
+} from './styles';
 
 interface Extract {
   type: string;
@@ -34,64 +41,102 @@ const Extract: React.FC = () => {
   const [extracts, setExtracts] = useState<Extract[]>([]);
   const [balance, setBalance] = useState<BalanceFormatData>();
 
-  useEffect(() => {
-    async function loadExtracts(): Promise<void> {
-      const token = localStorage.getItem('@Desafio-Eduzz:token');
-
-      const config = {
-        headers: { Authorization: `Bearer ${token}` },
-      };
-
-      const [response] = await Promise.all([api.get('/extract', config)]);
-
-      const extractsFormatted = response.data.map((extract: Extract) => ({
-        ...extract,
-        formattedValue: extract.value.toLocaleString('pt-BR', {
-          style: 'currency',
-          currency: 'BRL',
-        }),
-        formattedDate: new Date(extract.createdAt).toLocaleDateString('pt-BR'),
-      }));
-      const balanceSum: Balance = response.data.reduce(
-        (accumulator: Balance, extract: Extract) => {
-          switch (extract.type) {
-            case 'investment':
-              accumulator.investment += extract.value;
-              break;
-            case 'liquidation':
-              accumulator.liquidation += extract.value;
-              break;
-            case 'deposit':
-              accumulator.total += 0;
-              break;
-            default:
-              break;
-          }
-          accumulator.total = accumulator.investment + accumulator.liquidation;
-          return accumulator;
-        },
-        {
-          investment: 0,
-          liquidation: 0,
-          total: 0,
-        },
+  const filterDate = useCallback((data: Extract[], daysQuantity: number) => {
+    const actualDate = new Date();
+    const filteredDate = data.filter(filtering => {
+      const created = new Date(filtering.createdAt);
+      const comparationDay = actualDate.getDate() - daysQuantity;
+      const comparationMonth = new Date(
+        actualDate.getFullYear(),
+        actualDate.getMonth(),
+        comparationDay,
       );
 
-      const balanceFormatted: BalanceFormatData = {
-        formattedInvestment: formatValue(balanceSum.investment),
-        formattedLiquidation: formatValue(balanceSum.liquidation),
-        formattedTotal: formatValue(balanceSum.total),
-      };
+      return created >= comparationMonth;
+    });
 
-      setBalance(balanceFormatted);
-      setExtracts(extractsFormatted);
-    }
-
-    loadExtracts();
+    return filteredDate;
   }, []);
+
+  const handleFilter = useCallback(
+    (daysQuantity: number) => {
+      async function loadExtracts(): Promise<void> {
+        const token = localStorage.getItem('@Desafio-Eduzz:token');
+
+        const config = {
+          headers: { Authorization: `Bearer ${token}` },
+        };
+
+        const [response] = await Promise.all([api.get('/extract', config)]);
+
+        const filteredDate = filterDate(response.data, daysQuantity);
+
+        const extractsFormatted = filteredDate.map((extract: Extract) => ({
+          ...extract,
+          formattedValue: extract.value.toLocaleString('pt-BR', {
+            style: 'currency',
+            currency: 'BRL',
+          }),
+          formattedDate: new Date(extract.createdAt).toLocaleDateString(
+            'pt-BR',
+          ),
+        }));
+
+        const balanceSum: Balance = extractsFormatted.reduce(
+          (accumulator: Balance, extract: Extract) => {
+            switch (extract.type) {
+              case 'investment':
+                accumulator.investment += extract.value;
+                break;
+              case 'liquidation':
+                accumulator.liquidation += extract.value;
+                break;
+              case 'deposit':
+                accumulator.total += 0;
+                break;
+              default:
+                break;
+            }
+            accumulator.total =
+              accumulator.investment + accumulator.liquidation;
+            return accumulator;
+          },
+          {
+            investment: 0,
+            liquidation: 0,
+            total: 0,
+          },
+        );
+
+        const balanceFormatted: BalanceFormatData = {
+          formattedInvestment: formatValue(balanceSum.investment),
+          formattedLiquidation: formatValue(balanceSum.liquidation),
+          formattedTotal: formatValue(balanceSum.total),
+        };
+
+        setBalance(balanceFormatted);
+        setExtracts(extractsFormatted);
+      }
+
+      loadExtracts();
+    },
+    [filterDate],
+  );
 
   return (
     <Container>
+      <h1 className="filter-title">Clique em um dos Filtros</h1>
+      <FilterContainer>
+        <FilterCard onClick={() => handleFilter(30)}>
+          <h1>30 Dias</h1>
+        </FilterCard>
+        <FilterCard onClick={() => handleFilter(60)}>
+          <h1>60 Dias</h1>
+        </FilterCard>
+        <FilterCard onClick={() => handleFilter(90)}>
+          <h1>90 Dias</h1>
+        </FilterCard>
+      </FilterContainer>
       <CardContainer>
         <Card>
           <header>
